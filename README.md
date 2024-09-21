@@ -1,6 +1,5 @@
 # strcase
 [![Godoc Reference](https://godoc.org/github.com/peyton-spencer/caseconv?status.svg)](http://godoc.org/github.com/peyton-spencer/caseconv)
-[![Build Status](https://travis-ci.com/peyton-spencer/caseconv.svg)](https://travis-ci.com/peyton-spencer/caseconv)
 [![Go Coverage](https://github.com/peyton-spencer/caseconv/wiki/coverage.svg)](https://raw.githack.com/peyton-spencer/caseconv/wiki/coverage.html)
 [![Go Report Card](https://goreportcard.com/badge/github.com/peyton-spencer/caseconv)](https://goreportcard.com/report/github.com/peyton-spencer/caseconv)
 
