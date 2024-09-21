@@ -1,6 +1,6 @@
 # strcase
 [![Godoc Reference](https://godoc.org/github.com/peyton-spencer/caseconv?status.svg)](http://godoc.org/github.com/peyton-spencer/caseconv)
-[![Go Coverage](https://github.com/peyton-spencer/caseconv/wiki/coverage.svg)](https://raw.githack.com/peyton-spencer/caseconv/wiki/coverage.html)
+[![Go Coverage](https://github.com/peyton-spencer/caseconv/wiki/coverage.svg)](https://raw.githack.com/wiki/peyton-spencer/caseconv/coverage.html)
 [![Go Report Card](https://goreportcard.com/badge/github.com/peyton-spencer/caseconv)](https://goreportcard.com/report/github.com/peyton-spencer/caseconv)
 
 caseconv is a go package for converting string case to various cases (e.g. [snake case](https://en.wikipedia.org/wiki/Snake_case) or [camel case](https://en.wikipedia.org/wiki/CamelCase)) to see the full conversion table below.
