@@ -1,4 +1,4 @@
-// Package strcase converts strings to various cases. See the conversion table below:
+// Package bytcase converts byte slices to various cases. See the conversion table below:
 //
 //	| Function                        | Result             |
 //	|---------------------------------|--------------------|
@@ -10,4 +10,4 @@
 //	| ToScreamingDelimited(s, '.')    | ANY.KIND.OF.STRING |
 //	| ToCamel(s)                      | AnyKindOfString    |
 //	| ToLowerCamel(s)                 | anyKindOfString    |
-package strcase
+package bytcase
