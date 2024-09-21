@@ -23,51 +23,50 @@
  * SOFTWARE.
  */
 
-package strcase
+package bytcase
 
 import (
-	"strings"
+	"bytes"
 )
 
 // ToSnake converts a string to snake_case
-func ToSnake(s string) string {
+func ToSnake(s []byte) []byte {
 	return ToDelimited(s, '_')
 }
 
-func ToSnakeWithIgnore(s string, ignore string) string {
+func ToSnakeWithIgnore(s []byte, ignore []byte) []byte {
 	return ToScreamingDelimited(s, '_', ignore, false)
 }
 
 // ToScreamingSnake converts a string to SCREAMING_SNAKE_CASE
-func ToScreamingSnake(s string) string {
-	return ToScreamingDelimited(s, '_', "", true)
+func ToScreamingSnake(s []byte) []byte {
+	return ToScreamingDelimited(s, '_', nil, true)
 }
 
 // ToKebab converts a string to kebab-case
-func ToKebab(s string) string {
+func ToKebab(s []byte) []byte {
 	return ToDelimited(s, '-')
 }
 
 // ToScreamingKebab converts a string to SCREAMING-KEBAB-CASE
-func ToScreamingKebab(s string) string {
-	return ToScreamingDelimited(s, '-', "", true)
+func ToScreamingKebab(s []byte) []byte {
+	return ToScreamingDelimited(s, '-', nil, true)
 }
 
 // ToDelimited converts a string to delimited.snake.case
 // (in this case `delimiter = '.'`)
-func ToDelimited(s string, delimiter uint8) string {
-	return ToScreamingDelimited(s, delimiter, "", false)
+func ToDelimited(s []byte, delimiter byte) []byte {
+	return ToScreamingDelimited(s, delimiter, nil, false)
 }
 
 // ToScreamingDelimited converts a string to SCREAMING.DELIMITED.SNAKE.CASE
 // (in this case `delimiter = '.'; screaming = true`)
 // or delimited.snake.case
 // (in this case `delimiter = '.'; screaming = false`)
-func ToScreamingDelimited(s string, delimiter uint8, ignore string, screaming bool) string {
-	s = strings.TrimSpace(s)
-	n := strings.Builder{}
-	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
-	for i, v := range []byte(s) {
+func ToScreamingDelimited(s []byte, delimiter byte, ignore []byte, screaming bool) []byte {
+	s = bytes.TrimSpace(s)
+	n := make([]byte, 0, len(s)+2)
+	for i, v := range s {
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
 		if vIsLow && screaming {
@@ -87,29 +86,38 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore string, screaming bo
 			nextIsNum := next >= '0' && next <= '9'
 			// add underscore if next letter case type is changed
 			if (vIsCap && (nextIsLow || nextIsNum)) || (vIsLow && (nextIsCap || nextIsNum)) || (vIsNum && (nextIsCap || nextIsLow)) {
-				prevIgnore := ignore != "" && i > 0 && strings.ContainsAny(string(s[i-1]), ignore)
+				prevIgnore := len(ignore) > 0 && i > 0 && contains(s[i-1], ignore)
 				if !prevIgnore {
 					if vIsCap && nextIsLow {
 						if prevIsCap := i > 0 && s[i-1] >= 'A' && s[i-1] <= 'Z'; prevIsCap {
-							n.WriteByte(delimiter)
+							n = append(n, delimiter)
 						}
 					}
-					n.WriteByte(v)
+					n = append(n, v)
 					if vIsLow || vIsNum || nextIsNum {
-						n.WriteByte(delimiter)
+						n = append(n, delimiter)
 					}
 					continue
 				}
 			}
 		}
 
-		if (v == ' ' || v == '_' || v == '-' || v == '.') && !strings.ContainsAny(string(v), ignore) {
+		if (v == ' ' || v == '_' || v == '-' || v == '.') && !contains(s[i], ignore) {
 			// replace space/underscore/hyphen/dot with delimiter
-			n.WriteByte(delimiter)
+			n = append(n, delimiter)
 		} else {
-			n.WriteByte(v)
+			n = append(n, v)
 		}
 	}
 
-	return n.String()
+	return n
+}
+
+func contains(s byte, ignore []byte) bool {
+	for _, v := range ignore {
+		if s == v {
+			return true
+		}
+	}
+	return false
 }

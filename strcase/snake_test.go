@@ -23,10 +23,12 @@
  * SOFTWARE.
  */
 
-package strcase
+package strcase_test
 
 import (
 	"testing"
+
+	"github.com/peyton-spencer/caseconv/strcase"
 )
 
 func toSnake(tb testing.TB) {
@@ -60,7 +62,7 @@ func toSnake(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToSnake(in)
+		result := strcase.ToSnake(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -103,7 +105,7 @@ func toSnakeWithIgnore(tb testing.TB) {
 		if len(i) == 3 {
 			ignore = i[2]
 		}
-		result := ToSnakeWithIgnore(in, ignore)
+		result := strcase.ToSnakeWithIgnore(in, ignore)
 		if result != out {
 			istr := ""
 			if len(i) == 3 {
@@ -144,7 +146,7 @@ func toDelimited(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToDelimited(in, '@')
+		result := strcase.ToDelimited(in, '@')
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -164,7 +166,7 @@ func toScreamingSnake(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingSnake(in)
+		result := strcase.ToScreamingSnake(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -184,7 +186,7 @@ func toKebab(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToKebab(in)
+		result := strcase.ToKebab(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -204,7 +206,7 @@ func toScreamingKebab(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingKebab(in)
+		result := strcase.ToScreamingKebab(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -224,7 +226,7 @@ func toScreamingDelimited(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingDelimited(in, '.', "", true)
+		result := strcase.ToScreamingDelimited(in, '.', "", true)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -246,7 +248,7 @@ func toScreamingDelimitedWithIgnore(tb testing.TB) {
 		out := i[1]
 		delimiter := i[2][0]
 		ignore := i[3][0]
-		result := ToScreamingDelimited(in, delimiter, string(ignore), true)
+		result := strcase.ToScreamingDelimited(in, delimiter, string(ignore), true)
 		if result != out {
 			istr := ""
 			if len(i) == 4 {

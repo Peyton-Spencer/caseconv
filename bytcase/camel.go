@@ -23,28 +23,23 @@
  * SOFTWARE.
  */
 
-package strcase
+package bytcase
 
 import (
-	"strings"
+	"bytes"
 )
 
 // Converts a string to CamelCase
-func toCamelInitCase(s string, initCase bool) string {
-	s = strings.TrimSpace(s)
-	if s == "" {
+func toCamelInitCase(s []byte, initCase bool) []byte {
+	s = bytes.TrimSpace(s)
+	if len(s) == 0 {
 		return s
 	}
-	a, hasAcronym := uppercaseAcronym.Load(s)
-	if hasAcronym {
-		s = a.(string)
-	}
 
-	n := strings.Builder{}
-	n.Grow(len(s))
+	n := make([]byte, 0, len(s))
 	capNext := initCase
 	prevIsCap := false
-	for i, v := range []byte(s) {
+	for i, v := range s {
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
 		if capNext {
@@ -57,31 +52,31 @@ func toCamelInitCase(s string, initCase bool) string {
 				v += 'a'
 				v -= 'A'
 			}
-		} else if prevIsCap && vIsCap && !hasAcronym {
+		} else if prevIsCap && vIsCap {
 			v += 'a'
 			v -= 'A'
 		}
 		prevIsCap = vIsCap
 
 		if vIsCap || vIsLow {
-			n.WriteByte(v)
+			n = append(n, v)
 			capNext = false
 		} else if vIsNum := v >= '0' && v <= '9'; vIsNum {
-			n.WriteByte(v)
+			n = append(n, v)
 			capNext = true
 		} else {
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 		}
 	}
-	return n.String()
+	return n
 }
 
 // ToCamel converts a string to CamelCase
-func ToCamel(s string) string {
+func ToCamel(s []byte) []byte {
 	return toCamelInitCase(s, true)
 }
 
 // ToLowerCamel converts a string to lowerCamelCase
-func ToLowerCamel(s string) string {
+func ToLowerCamel(s []byte) []byte {
 	return toCamelInitCase(s, false)
 }
