@@ -1,11 +1,11 @@
-name: Go Tests
+name: Go Coverage
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  test:
+  coverage:
     runs-on: ubuntu-latest
     steps:
     - name: Update coverage report
